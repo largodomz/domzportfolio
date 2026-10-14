@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dominic Largo | Full-Time Professor & Tech Specialist</title>
+    <meta name="description" content="Portfolio of Professor Dominic Largo - Full-time Professor at CIE British School, Web Development & Design, Cybersecurity Specialist, and Digital Marketer.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Outfit', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace'],
+                    },
+                    colors: {
+                        primary: { 900: '#0a0f1d', 800: '#111827', 700: '#1f2937' },
+                        brand: { cyan: '#06b6d4', blue: '#3b82f6' }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom CSS for Animations & Specific Effects --> 
+    <style>
+        html { scroll-behavior: smooth; }
+        
+        #particleCanvas {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none;
+        }
+
+        .cursor {
+            display: inline-block; width: 3px; background-color: #06b6d4; margin-left: 2px; animation: blink 1s infinite;
+        }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+        .pulsing-dot {
+            width: 8px; height: 8px; background-color: #06b6d4; border-radius: 50%; display: inline-block;
+            box-shadow: 0 0 10px #06b6d4; animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(6, 182, 212, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(6, 182, 212, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(6, 182, 212, 0); }
+        }
+
+        .filter-active {
+            background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
+            color: white !important;
+            border-color: transparent !important;
+        }
+
+        /* Glassmorphism Reusable Class */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        .dark .glass-panel {
+            background: rgba(17, 24, 39, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 dark:bg-primary-900 dark:text-slate-50 transition-colors duration-300 relative overflow-x-hidden">
+
+    <!-- Particle Canvas -->
+    <canvas id="particleCanvas"></canvas>
+
+    <!-- Navigation Header -->
+    <header id="navbar" class="fixed w-full top-0 z-50 py-5 transition-all duration-300">
+        <div class="container mx-auto px-6 max-w-6xl flex justify-between items-center">
+            <a href="#hero" class="font-heading text-2xl font-bold tracking-tight">
+                <span class="text-brand-cyan">&lt;</span>D<span class="text-brand-blue">L</span><span class="text-brand-cyan"> /&gt;</span>
+            </a>
+            
+            <nav id="navLinks" class="hidden md:flex gap-8 items-center font-medium text-sm text-slate-600 dark:text-slate-300">
+                <a href="#about" class="hover:text-brand-cyan dark:hover:text-white transition-colors">About</a>
+                <a href="#skills" class="hover:text-brand-cyan dark:hover:text-white transition-colors">Skills</a>
+                <a href="#projects" class="hover:text-brand-cyan dark:hover:text-white transition-colors">Projects</a>
+                <a href="#experience" class="hover:text-brand-cyan dark:hover:text-white transition-colors">Experience</a>
+                <a href="#contact" class="hover:text-brand-cyan dark:hover:text-white transition-colors">Contact</a>
+            </nav>
+
+            <div class="flex items-center gap-4">
+                <button id="themeToggle" class="w-10 h-10 rounded-full glass-panel flex items-center justify-center hover:text-brand-cyan transition-colors" aria-label="Toggle Theme">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+                <button id="mobileToggle" class="md:hidden w-10 h-10 rounded-full glass-panel flex items-center justify-center hover:text-brand-cyan transition-colors" aria-label="Toggle Menu">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile Menu (Hidden by default, toggled via JS) -->
+        <div id="mobileMenu" class="fixed top-0 right-[-100%] w-3/4 h-screen glass-panel flex flex-col p-10 gap-6 transition-all duration-300 z-40 md:hidden border-l border-gray-200 dark:border-gray-800">
+            <div class="mt-16 flex flex-col gap-6 text-lg font-medium">
+                <a href="#about" class="mobile-link">About</a>
+                <a href="#skills" class="mobile-link">Skills</a>
+                <a href="#projects" class="mobile-link">Projects</a>
+                <a href="#experience" class="mobile-link">Experience</a>
+                <a href="#contact" class="mobile-link">Contact</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero" class="min-h-screen flex items-center pt-32 pb-20">
+        <div class="container mx-auto px-6 max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            
+            <div class="order-2 lg:order-1 text-center lg:text-left">
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 mb-6 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-600 dark:text-cyan-400 font-mono text-xs font-medium">
+                    <span class="pulsing-dot"></span> Full-Time Professor @ CIE British School
+                </div>
+                
+                <h1 class="font-heading text-5xl md:text-6xl font-bold mb-4 leading-tight text-slate-900 dark:text-white">
+                    Dominic Largo
+                </h1>
+                
+                <h2 class="text-xl md:text-2xl font-medium text-slate-600 dark:text-slate-400 mb-6 h-8">
+                    I specialize in <span class="text-brand-cyan font-semibold" id="typingElement"></span><span class="cursor">&nbsp;</span>
+                </h2>
+                
+                <p class="text-slate-600 dark:text-slate-400 mb-8 max-w-xl mx-auto lg:mx-0 leading-relaxed text-lg">
+                    Educating future developers and security professionals through a balance of modern UI/UX design, cutting-edge web frameworks, resilient cybersecurity practices, and digital business automation.
+                </p>
+
+                <div class="flex flex-wrap justify-center lg:justify-start gap-4 mb-8">
+                    <a href="#projects" class="px-8 py-3 rounded-full bg-gradient-to-r from-brand-blue to-brand-cyan text-white font-semibold hover:shadow-[0_8px_25px_rgba(6,182,212,0.4)] hover:-translate-y-1 transition-all flex items-center gap-2">
+                        <i class="fa-solid fa-laptop-code"></i> View Projects
+                    </a>
+                    <a href="https://www.linkedin.com/in/dominic-largo-66875996/" target="_blank" class="px-8 py-3 rounded-full border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold hover:-translate-y-1 transition-all flex items-center gap-2">
+                        <i class="fa-brands fa-linkedin"></i> LinkedIn
+                    </a>
+                </div>
+
+                <div class="flex justify-center lg:justify-start gap-4">
+                    <a href="https://www.linkedin.com/in/dominic-largo-66875996/" target="_blank" class="w-11 h-11 rounded-full glass-panel flex justify-center items-center hover:text-brand-cyan hover:border-brand-cyan hover:-translate-y-1 transition-all"><i class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="mailto:contact@dominiclargo.edu" class="w-11 h-11 rounded-full glass-panel flex justify-center items-center hover:text-brand-cyan hover:border-brand-cyan hover:-translate-y-1 transition-all"><i class="fa-solid fa-envelope"></i></a>
+                    <a href="https://largodomz.github.io/domzportfolio/" target="_blank" class="w-11 h-11 rounded-full glass-panel flex justify-center items-center hover:text-brand-cyan hover:border-brand-cyan hover:-translate-y-1 transition-all"><i class="fa-brands fa-github"></i></a>
+                </div>
+            </div>
+
+            <div class="order-1 lg:order-2 flex justify-center relative">
+                <!-- Glow Effect -->
+                <div class="absolute w-[300px] h-[300px] md:w-[350px] md:h-[350px] bg-gradient-to-tr from-brand-blue/40 to-brand-cyan/40 rounded-full blur-[60px] z-0"></div>
+                
+                <!-- Profile Image Card -->
+                <div class="relative z-10 w-[280px] h-[340px] md:w-[320px] md:h-[380px] rounded-3xl p-3 glass-panel shadow-2xl">
+                    <img src="Me.jpg" alt="Prof. Dominic Largo" class="w-full h-full object-cover rounded-2xl filter brightness-105" onerror="this.src='https://snipboard.io/RVOhzB.jpg'">
+                    
+                    <!-- Floating Badge -->
+                    <div class="absolute -bottom-4 left-1/2 -translate-x-1/2 w-[90%] glass-panel py-3 px-4 rounded-xl text-center text-sm font-bold text-brand-cyan shadow-lg flex items-center justify-center gap-2 border-slate-200 dark:border-slate-700">
+                        <i class="fa-solid fa-shield-halved"></i> Cyber, Web & Automation
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-12 border-y border-slate-200 dark:border-slate-800 bg-slate-100/50 dark:bg-black/20">
+        <div class="container mx-auto px-6 max-w-6xl grid grid-cols-2 md:grid-cols-4 gap-8 text-center stats-section">
+            <div>
+                <div class="font-heading text-4xl md:text-5xl font-bold text-slate-900 dark:text-white flex justify-center items-baseline">
+                    <span class="stat-number" data-target="8">0</span><span class="text-brand-cyan text-3xl">+</span>
+                </div>
+                <div class="text-sm text-slate-500 mt-2 font-medium">Years Teaching</div>
+            </div>
+            <div>
+                <div class="font-heading text-4xl md:text-5xl font-bold text-slate-900 dark:text-white flex justify-center items-baseline">
+                    <span class="stat-number" data-target="500">0</span><span class="text-brand-cyan text-3xl">+</span>
+                </div>
+                <div class="text-sm text-slate-500 mt-2 font-medium">Students Mentored</div>
+            </div>
+            <div>
+                <div class="font-heading text-4xl md:text-5xl font-bold text-slate-900 dark:text-white flex justify-center items-baseline">
+                    <span class="stat-number" data-target="15">0</span><span class="text-brand-cyan text-3xl">+</span>
+                </div>
+                <div class="text-sm text-slate-500 mt-2 font-medium">Security Audits</div>
+            </div>
+            <div>
+                <div class="font-heading text-4xl md:text-5xl font-bold text-slate-900 dark:text-white flex justify-center items-baseline">
+                    <span class="stat-number" data-target="100">0</span><span class="text-brand-cyan text-3xl">%</span>
+                </div>
+                <div class="text-sm text-slate-500 mt-2 font-medium">Commitment</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-24">
+        <div class="container mx-auto px-6 max-w-6xl">
+            <div class="text-center mb-16">
+                <span class="font-mono text-brand-cyan text-sm uppercase tracking-widest mb-2 block">About Me</span>
+                <h2 class="font-heading text-3xl md:text-4xl font-bold mb-4">Bridging Theory & Practical Innovation</h2>
+                <p class="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto text-lg">Educator, Developer, Cybersecurity Analyst, and Automation Expert</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="glass-panel p-8 rounded-2xl hover:-translate-y-2 transition-transform duration-300 hover:border-brand-cyan/50 group">
+                    <div class="w-14 h-14 rounded-xl bg-cyan-500/10 text-brand-cyan flex items-center justify-center text-2xl mb-6 group-hover:bg-brand-cyan group-hover:text-white transition-colors">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                    </div>
+                    <h3 class="font-heading text-xl font-bold mb-3">Academic Excellence</h3>
+                    <p class="text-slate-600 dark:text-slate-400 leading-relaxed text-sm">As a Full-Time Professor at CIE British School, I design curricula that prepare students for international standards in Web Development, Responsive UI Design, and Cybersecurity.</p>
+                </div>
+
+                <div class="glass-panel p-8 rounded-2xl hover:-translate-y-2 transition-transform duration-300 hover:border-brand-cyan/50 group">
+                    <div class="w-14 h-14 rounded-xl bg-cyan-500/10 text-brand-cyan flex items-center justify-center text-2xl mb-6 group-hover:bg-brand-cyan group-hover:text-white transition-colors">
+                        <i class="fa-solid fa-shield-virus"></i>
+                    </div>
+                    <h3 class="font-heading text-xl font-bold mb-3">Cybersecurity Mindset</h3>
+                    <p class="text-slate-600 dark:text-slate-400 leading-relaxed text-sm">Emphasis on threat analysis, network security, OWASP web protection standards, ethical hacking labs, and safe programming practices to build defensive systems.</p>
+                </div>
+
+                <div class="glass-panel p-8 rounded-2xl hover:-translate-y-2 transition-transform duration-300 hover:border-brand-cyan/50 group">
+                    <div class="w-14 h-14 rounded-xl bg-cyan-500/10 text-brand-cyan flex items-center justify-center text-2xl mb-6 group-hover:bg-brand-cyan group-hover:text-white transition-colors">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+                    <h3 class="font-heading text-xl font-bold mb-3">Marketing & Automation</h3>
+                    <p class="text-slate-600 dark:text-slate-400 leading-relaxed text-sm">Equipped with hands-on experience in building marketing funnels, business automation setups, copywriting, and CRM integration to scale digital ecosystems.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-24 bg-slate-100/50 dark:bg-black/20 border-y border-slate-200 dark:border-slate-800">
+        <div class="container mx-auto px-6 max-w-6xl">
+            <div class="text-center mb-16">
+                <span class="font-mono text-brand-cyan text-sm uppercase tracking-widest mb-2 block">Competencies</span>
+                <h2 class="font-heading text-3xl md:text-4xl font-bold">Technical Expertise</h2>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-8">
+                <!-- Skill Category -->
+                <div class="glass-panel p-8 rounded-2xl">
+                    <h3 class="font-heading text-lg font-bold mb-6 flex items-center gap-3 text-brand-cyan">
+                        <i class="fa-solid fa-laptop-code text-xl"></i> Web Development & Frontend
+                    </h3>
+                    <div class="flex flex-wrap gap-3">
+                        <span class="px-4 py-2 rounded-full border border-slate-300 dark:border-slate-700 bg-white/50 dark:bg-slate-800/50 text-sm font-medium hover:border-brand-cyan hover:text-brand-cyan transition-colors cursor-default"><i class="fa-brands fa-html5 mr-1"></i> HTML5 Markup</span>
+                        <span class="px-4 py-2 rounded-full border border-slate-300 dark:border-slate-700 bg-white/50 dark:bg-slate-800/50 text-sm font-medium hover:border-brand-cyan hover:text-brand-cyan transition-colors cursor-default"><i class="fa-brands fa-css3-alt mr-1"></i> CSS3 & Grid</span>
+                        <span class="px-4 py-2 rounded-full border border-slate-300 dark:border-slate-700 bg-white/50 dark:bg-slate-800/50 text-sm font-medium hover:border-brand-cyan hover:text-brand-cyan transition-colors cursor-default"><i class="fa-brands fa-js mr-1"></i> JavaScript ES6+</span>
+                        <span class="px-4 py-2 rounded-full border border-slate-300 dark:border-slate-700 bg-white/50 dark:bg-slate-800/50 text-sm font-medium hover:border-brand-cyan hover:text-brand-cyan transition-colors cursor-default"><i class="fa-brands fa-react mr-1"></i> React.js / Next.js</span>
+                    </div>
+                </div>
+
+                <!-- Skill Category -->
+                <div class="glass-panel p-8 rounded-2xl">
+                    <h3 class="font-heading text-lg font-bold mb-6 flex items-center gap-3 text-brand-cyan">
+                        <i class="fa-solid fa-user-shield text-xl"></i> Cybersecurity & Networking
+                    </h3>
+                    <div class="flex flex-wrap gap-3">
+                        <span class="px-4 py-2 rounded-full border border-slate-300 dark:border-slate-700 bg-white/50 dark:bg-slate-800/50 text-sm font-medium hover:border-brand-cyan hover:text-brand-cyan transition-colors cursor-default"><i class="fa-solid fa-network-wired mr-1"></i> Network Sec</span>
+                        <span class="px-4 py-2 rounded-full border border-slate-300 dark:border-slate-700 bg-white/50 dark:bg-slate-800/50 text-sm font-medium hover:border-brand-cyan hover:text-brand-cyan transition-colors cursor-default"><i class="fa-solid fa-bug mr-1"></i> Pen Testing</span>
+                        <span class="px-4 py-2 rounded-full border border-slate-300 dark:border-slate-700 bg-white/50 dark:bg-slate-800/50 text-sm font-medium hover:border-brand-cyan hover:text-brand-cyan transition-colors cursor-default"><i class="fa-solid fa-lock mr-1"></i> OWASP Top 10</span>
+                        <span class="px-4 py-2 rounded-full border border-slate-300 dark:border-slate-700 bg-white/50 dark:bg-slate-800/50 text-sm font-medium hover:border-brand-cyan hover:text-brand-cyan transition-colors cursor-default"><i class="fa-brands fa-python mr-1"></i> Python Scripts</span>
+                    </div>
+                </div>
+
+                <!-- Skill Category -->
+                <div class="glass-panel p-8 rounded-2xl">
+                    <h3 class="font-heading text-lg font-bold mb-6 flex items-center gap-3 text-brand-cyan">
+                        <i class="fa-solid fa-bullhorn text-xl"></i> Digital Marketing & Test Automation
+                    </h3>
+                    <div class="flex flex-wrap gap-3">
+                        <span class="px-4 py-2 rounded-full border border-slate-300 dark:border-slate-700 bg-white/50 dark:bg-slate-800/50 text-sm font-medium hover:border-brand-cyan hover:text-brand-cyan transition-colors cursor-default"><i class="fa-solid fa-funnel-dollar mr-1"></i> Marketing Funnels</span>
+                        <span class="px-4 py-2 rounded-full border border-slate-300 dark:border-slate-700 bg-white/50 dark:bg-slate-800/50 text-sm font-medium hover:border-brand-cyan hover:text-brand-cyan transition-colors cursor-default"><i class="fa-solid fa-envelope-open-text mr-1"></i> Email Marketing</span>
+                        <span class="px-4 py-2 rounded-full border border-slate-300 dark:border-slate-700 bg-white/50 dark:bg-slate-800/50 text-sm font-medium hover:border-brand-cyan hover:text-brand-cyan transition-colors cursor-default"><i class="fa-solid fa-robot mr-1"></i> Automation</span>
+                        <span class="px-4 py-2 rounded-full border border-slate-300 dark:border-slate-700 bg-white/50 dark:bg-slate-800/50 text-sm font-medium hover:border-brand-cyan hover:text-brand-cyan transition-colors cursor-default"><i class="fa-solid fa-pen-nib mr-1"></i> Copywriting</span>
+                        <span class="px-4 py-2 rounded-full border border-slate-300 dark:border-slate-700 bg-white/50 dark:bg-slate-800/50 text-sm font-medium hover:border-brand-cyan hover:text-brand-cyan transition-colors cursor-default"><i class="fa-solid fa-users-gear mr-1"></i> Membership Sites</span>
+                    </div>
+                </div>
+
+                <!-- Skill Category -->
+                <div class="glass-panel p-8 rounded-2xl">
+                    <h3 class="font-heading text-lg font-bold mb-6 flex items-center gap-3 text-brand-cyan">
+                        <i class="fa-solid fa-chalkboard-user text-xl"></i> Design & Pedagogy
+                    </h3>
+                    <div class="flex flex-wrap gap-3">
+                        <span class="px-4 py-2 rounded-full border border-slate-300 dark:border-slate-700 bg-white/50 dark:bg-slate-800/50 text-sm font-medium hover:border-brand-cyan hover:text-brand-cyan transition-colors cursor-default"><i class="fa-brands fa-figma mr-1"></i> Figma UI/UX</span>
+                        <span class="px-4 py-2 rounded-full border border-slate-300 dark:border-slate-700 bg-white/50 dark:bg-slate-800/50 text-sm font-medium hover:border-brand-cyan hover:text-brand-cyan transition-colors cursor-default"><i class="fa-solid fa-layer-group mr-1"></i> Design Systems</span>
+                        <span class="px-4 py-2 rounded-full border border-slate-300 dark:border-slate-700 bg-white/50 dark:bg-slate-800/50 text-sm font-medium hover:border-brand-cyan hover:text-brand-cyan transition-colors cursor-default"><i class="fa-solid fa-book-open mr-1"></i> Curriculum Dev</span>
+                        <span class="px-4 py-2 rounded-full border border-slate-300 dark:border-slate-700 bg-white/50 dark:bg-slate-800/50 text-sm font-medium hover:border-brand-cyan hover:text-brand-cyan transition-colors cursor-default"><i class="fa-solid fa-palette mr-1"></i> Marketing Design</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-24">
+        <div class="container mx-auto px-6 max-w-6xl">
+            <div class="text-center mb-12">
+                <span class="font-mono text-brand-cyan text-sm uppercase tracking-widest mb-2 block">Portfolio</span>
+                <h2 class="font-heading text-3xl md:text-4xl font-bold mb-4">Featured Projects & Research</h2>
+                <p class="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto text-lg">Demonstrating educational technology, cyber security toolsets, web design, and digital marketing funnels</p>
+            </div>
+
+            <!-- Project Filters -->
+            <div class="flex flex-wrap justify-center gap-3 mb-12" id="filterContainer">
+                <button class="filter-btn filter-active px-6 py-2 rounded-full border border-slate-300 dark:border-slate-700 text-sm font-semibold transition-all" data-filter="all">All Projects</button>
+                <button class="filter-btn px-6 py-2 rounded-full border border-slate-300 dark:border-slate-700 text-sm font-semibold transition-all hover:border-brand-cyan hover:text-brand-cyan" data-filter="marketing">Digital Marketing</button>
+                <button class="filter-btn px-6 py-2 rounded-full border border-slate-300 dark:border-slate-700 text-sm font-semibold transition-all hover:border-brand-cyan hover:text-brand-cyan" data-filter="web">Web Dev</button>
+                <button class="filter-btn px-6 py-2 rounded-full border border-slate-300 dark:border-slate-700 text-sm font-semibold transition-all hover:border-brand-cyan hover:text-brand-cyan" data-filter="cyber">Cybersecurity</button>
+            </div>
+
+            <!-- Projects Grid -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Project: Marketing -->
+                <div class="project-card glass-panel rounded-2xl overflow-hidden flex flex-col group hover:-translate-y-2 hover:border-brand-cyan/50 transition-all duration-300" data-category="marketing">
+                    <div class="h-48 bg-slate-200 dark:bg-black/30 flex items-center justify-center relative border-b border-slate-200 dark:border-slate-700">
+                        <i class="fa-solid fa-filter-circle-dollar text-6xl text-brand-cyan/80 group-hover:scale-110 transition-transform"></i>
+                        <span class="absolute top-4 right-4 bg-slate-900/80 backdrop-blur-sm text-brand-cyan text-xs font-mono py-1 px-3 rounded-full border border-slate-700">Marketing</span>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="font-heading text-lg font-bold mb-2">Doneverse.com Automation</h3>
+                        <p class="text-sm text-slate-600 dark:text-slate-400 mb-6 flex-grow">End-to-end digital marketing setup including sales funnels, automated email workflows, customer inbox routing, and membership site integration.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-slate-100 dark:bg-slate-800 text-[11px] font-mono rounded text-slate-500 border border-slate-200 dark:border-slate-700">Funnels</span>
+                            <span class="px-2 py-1 bg-slate-100 dark:bg-slate-800 text-[11px] font-mono rounded text-slate-500 border border-slate-200 dark:border-slate-700">CRM Set-up</span>
+                        </div>
+                        <button class="view-project-btn text-brand-cyan font-semibold text-sm flex items-center gap-2 hover:gap-3 transition-all w-fit" data-modal="modal7">
+                            Project Details <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Project: Web -->
+                <div class="project-card glass-panel rounded-2xl overflow-hidden flex flex-col group hover:-translate-y-2 hover:border-brand-cyan/50 transition-all duration-300" data-category="web">
+                    <div class="h-48 bg-slate-200 dark:bg-black/30 flex items-center justify-center relative border-b border-slate-200 dark:border-slate-700">
+                        <i class="fa-solid fa-chalkboard-teacher text-6xl text-brand-cyan/80 group-hover:scale-110 transition-transform"></i>
+                        <span class="absolute top-4 right-4 bg-slate-900/80 backdrop-blur-sm text-brand-cyan text-xs font-mono py-1 px-3 rounded-full border border-slate-700">EdTech</span>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="font-heading text-lg font-bold mb-2">Interactive LMS Portal</h3>
+                        <p class="text-sm text-slate-600 dark:text-slate-400 mb-6 flex-grow">A web platform built for remote technical education, tracking student coding progress, interactive quizzes, and modular lecture content.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-slate-100 dark:bg-slate-800 text-[11px] font-mono rounded text-slate-500 border border-slate-200 dark:border-slate-700">Next.js</span>
+                            <span class="px-2 py-1 bg-slate-100 dark:bg-slate-800 text-[11px] font-mono rounded text-slate-500 border border-slate-200 dark:border-slate-700">MongoDB</span>
+                        </div>
+                        <button class="view-project-btn text-brand-cyan font-semibold text-sm flex items-center gap-2 hover:gap-3 transition-all w-fit" data-modal="modal1">
+                            Project Details <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Project: Cyber -->
+                <div class="project-card glass-panel rounded-2xl overflow-hidden flex flex-col group hover:-translate-y-2 hover:border-brand-cyan/50 transition-all duration-300" data-category="cyber">
+                    <div class="h-48 bg-slate-200 dark:bg-black/30 flex items-center justify-center relative border-b border-slate-200 dark:border-slate-700">
+                        <i class="fa-solid fa-shield-virus text-6xl text-brand-cyan/80 group-hover:scale-110 transition-transform"></i>
+                        <span class="absolute top-4 right-4 bg-slate-900/80 backdrop-blur-sm text-brand-cyan text-xs font-mono py-1 px-3 rounded-full border border-slate-700">Cybersecurity</span>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="font-heading text-lg font-bold mb-2">Network Vuln Scanner</h3>
+                        <p class="text-sm text-slate-600 dark:text-slate-400 mb-6 flex-grow">Custom Python-driven security suite that automates asset discovery, port enumeration, and centralized reporting for classroom cyber labs.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-slate-100 dark:bg-slate-800 text-[11px] font-mono rounded text-slate-500 border border-slate-200 dark:border-slate-700">Python</span>
+                            <span class="px-2 py-1 bg-slate-100 dark:bg-slate-800 text-[11px] font-mono rounded text-slate-500 border border-slate-200 dark:border-slate-700">Nmap API</span>
+                        </div>
+                        <button class="view-project-btn text-brand-cyan font-semibold text-sm flex items-center gap-2 hover:gap-3 transition-all w-fit" data-modal="modal2">
+                            Project Details <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Timeline Experience Section -->
+    <section id="experience" class="py-24 bg-slate-100/50 dark:bg-black/20 border-y border-slate-200 dark:border-slate-800">
+        <div class="container mx-auto px-6 max-w-4xl">
+            <div class="text-center mb-16">
+                <span class="font-mono text-brand-cyan text-sm uppercase tracking-widest mb-2 block">Career History</span>
+                <h2 class="font-heading text-3xl md:text-4xl font-bold">Professional Experience</h2>
+            </div>
+
+            <div class="relative border-l-2 border-slate-200 dark:border-slate-700 ml-4 md:ml-0 md:pl-0 flex flex-col gap-10">
+                
+                <!-- Item 1 -->
+                <div class="relative pl-8 md:pl-0">
+                    <div class="absolute left-[-9px] md:left-[-9px] top-1 w-4 h-4 rounded-full bg-brand-cyan border-4 border-slate-100 dark:border-primary-900"></div>
+                    <div class="glass-panel p-6 rounded-2xl ml-0 md:ml-8 hover:-translate-y-1 transition-transform border-l-4 border-l-brand-cyan">
+                        <span class="font-mono text-brand-cyan text-xs mb-2 block">Present</span>
+                        <h3 class="font-heading text-xl font-bold">Full-Time Professor</h3>
+                        <h4 class="text-sm font-medium text-slate-500 mb-3">CIE British School</h4>
+                        <p class="text-sm text-slate-600 dark:text-slate-400">Leading lectures, practical laboratory sessions, and curriculum design in Web Development & Design and Cybersecurity for international-standard computer science courses.</p>
+                    </div>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="relative pl-8 md:pl-0">
+                    <div class="absolute left-[-9px] md:left-[-9px] top-1 w-4 h-4 rounded-full bg-slate-400 dark:bg-slate-600 border-4 border-slate-100 dark:border-primary-900"></div>
+                    <div class="glass-panel p-6 rounded-2xl ml-0 md:ml-8 hover:-translate-y-1 transition-transform border-l-4 border-l-brand-blue">
+                        <span class="font-mono text-brand-cyan text-xs mb-2 block">Recent Stint (1 Month)</span>
+                        <h3 class="font-heading text-xl font-bold">Digital Marketing & Automation</h3>
+                        <h4 class="text-sm font-medium text-slate-500 mb-3">Doneverse.com</h4>
+                        <p class="text-sm text-slate-600 dark:text-slate-400">Executed comprehensive digital marketing operations including social media management, email marketing, funnels, copywriting, and marketing design. Built membership sites and automated business tech infrastructure.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer & Contact -->
+    <footer id="contact" class="pt-24 pb-8 bg-slate-900 text-slate-100 border-t border-slate-800">
+        <div class="container mx-auto px-6 max-w-6xl mb-16">
+            <div class="grid md:grid-cols-2 gap-16">
+                
+                <div>
+                    <span class="font-mono text-brand-cyan text-sm uppercase tracking-widest mb-2 block">Get In Touch</span>
+                    <h2 class="font-heading text-3xl md:text-4xl font-bold mb-6">Let's Connect</h2>
+                    <p class="text-slate-400 mb-8 max-w-md">Open for academic consultations, cybersecurity workshops, web design inquiries, and business automation setups.</p>
+                    
+                    <div class="flex flex-col gap-6">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-slate-800 flex items-center justify-center text-brand-cyan text-xl"><i class="fa-solid fa-envelope"></i></div>
+                            <div>
+                                <h4 class="text-sm font-medium text-slate-500">Email</h4>
+                                <p class="font-semibold">dominic.largo@cie.edu</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-slate-800 flex items-center justify-center text-brand-cyan text-xl"><i class="fa-brands fa-linkedin"></i></div>
+                            <div>
+                                <h4 class="text-sm font-medium text-slate-500">LinkedIn</h4>
+                                <a href="https://www.linkedin.com/in/dominic-largo-66875996/" target="_blank" class="font-semibold hover:text-brand-cyan transition-colors">Connect with me</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Simple Contact Form -->
+                <div class="bg-slate-800/50 p-8 rounded-2xl border border-slate-700 backdrop-blur-sm">
+                    <form id="contactForm" class="flex flex-col gap-4">
+                        <div>
+                            <label class="block text-sm text-slate-400 mb-2">Name</label>
+                            <input type="text" required class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-brand-cyan transition-colors">
+                        </div>
+                        <div>
+                            <label class="block text-sm text-slate-400 mb-2">Email</label>
+                            <input type="email" required class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-brand-cyan transition-colors">
+                        </div>
+                        <div>
+                            <label class="block text-sm text-slate-400 mb-2">Message</label>
+                            <textarea rows="4" required class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-brand-cyan transition-colors"></textarea>
+                        </div>
+                        <button type="submit" class="mt-2 w-full py-3 rounded-lg bg-gradient-to-r from-brand-blue to-brand-cyan text-white font-bold hover:shadow-lg hover:shadow-cyan-500/30 transition-all">Send Message</button>
+                        <div id="formStatus" class="text-center text-sm mt-2 font-medium"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <div class="container mx-auto px-6 max-w-6xl border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p class="text-sm text-slate-500">&copy; <span id="currentYear"></span> Dominic Largo. All Rights Reserved.</p>
+            <div class="flex gap-4 text-slate-500">
+                <a href="#" class="hover:text-brand-cyan transition-colors"><i class="fa-brands fa-linkedin text-xl"></i></a>
+                <a href="#" class="hover:text-brand-cyan transition-colors"><i class="fa-brands fa-github text-xl"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Project Modal Overlay -->
+    <div id="projectModal" class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/80 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300 px-4">
+        <div class="glass-panel w-full max-w-2xl max-h-[85vh] overflow-y-auto rounded-3xl p-8 relative transform scale-95 transition-transform duration-300" id="modalContentScale">
+            <button id="modalClose" class="absolute top-6 right-6 text-2xl text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors">&times;</button>
+            <div id="modalBody">
+                <!-- Modal content goes here via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript logic -->
+    <script src="script.js"></script>
+</body>
+</html>
