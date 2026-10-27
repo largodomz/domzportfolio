@@ -14,9 +14,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const typingElement = document.getElementById('typingElement');
     const words = [
         "Web Development & Design",
-        "Cybersecurity Education",
+        "Cybersecurity/IT Educator",
         "Digital Marketing & Funnels",
-        "Business Tech Automation"
+        "Test Automation & Scripting",
+        "Network Threat Defense"
     ];
     let wordIndex = 0, charIndex = 0, isDeleting = false, typeSpeed = 100;
 
